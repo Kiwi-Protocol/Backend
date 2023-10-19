@@ -1,8 +1,6 @@
-type ApiResponse<T> = {
+export type ApiResponse = {
   message: string;
   status: number;
-  data?: T;
+  data?: any | null | undefined;
   error?: Error | null | undefined;
 };
-
-export default ApiResponse;

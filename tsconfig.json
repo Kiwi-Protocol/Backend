@@ -28,7 +28,7 @@
     ".erb/dll",
     "src/tests"
   ],
-  "include": ["src/*.ts", "server.ts"],
+  "include": ["src/**/*.ts", "server.ts"],
   "ts-node": {
     "compilerOptions": {
       "module": "commonjs"

@@ -1,4 +1,4 @@
-import db from "./src/handlers/mongodb.handler";
+import mongodbInstance from "./src/handlers/mongodb.handler";
 import app from "./src/app";
 
 const port = process.env.PORT || 3000;
@@ -6,11 +6,11 @@ const port = process.env.PORT || 3000;
 (async () => {
   try {
     // Connect to database
-    db.on("error", (error) => {
+    mongodbInstance.on("error", (error) => {
       console.error("Database connection error:", error);
     });
 
-    db.once("open", () => {
+    mongodbInstance.once("open", () => {
       console.log("Connected to the database");
     });
 

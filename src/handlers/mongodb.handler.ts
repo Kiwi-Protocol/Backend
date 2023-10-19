@@ -12,6 +12,6 @@ mongoose.connect(
   } as ConnectOptions
 );
 
-const db: Connection = mongoose.connection;
+const mongodbInstance: Connection = mongoose.connection;
 
-export default db;
+export default mongodbInstance;

@@ -116,16 +116,23 @@ class kiwiAvatarController {
         kiwiAvatarCharacteristics[characteristic.type.toLowerCase()] =
           characteristic;
       });
-      await KiwiAvatarModel.updateOne(
+      const updateData = await KiwiAvatarModel.updateOne(
         { _id: params.id },
         {
           characteristics: kiwiAvatarCharacteristics,
-          image_data: imageData.url,
+          image: imageData.url,
           cid: imageData.cid,
         }
       );
       const data = await KiwiAvatarModel.find({ _id: params.id });
-      return { status: 200, message: "ok", data };
+      return {
+        status: 200,
+        message: "ok",
+        data: {
+          data,
+          updateData,
+        },
+      };
     } catch (err: any) {
       return { status: 500, message: "error", error: err };
     }

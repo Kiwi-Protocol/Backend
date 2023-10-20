@@ -2,7 +2,7 @@
 KiwiProtocol Backend
 
 # Problems
-1. **How do we verify whether a game sends us a correct experience change**
+1. **How do we verify whether a game sends us a correct experience change**  
    How do we verify that a game sends us a correct experience change? They could just make 10 achievments which are super easy to get and completely hack our systems.
    We need to figure out a way to verify the authenticity of an achievment so the above problem does not happen.
    Because we will have our set of APIs that we will expose to the third party gaming application which will call it with the id of the avatar and the gain/loss in experience.

@@ -90,6 +90,25 @@ class kiwiAvatarController {
       const characteristicsToAdd: Array<IAsset> = await AssetModel.find({
         _id: { $in: characteristics },
       });
+      const imagePaths: Array<string> = characteristicsToAdd.map(
+        (characteristic: IAsset) => {
+          return characteristic.image_url;
+        }
+      );
+
+      const generatedImage = await createAvatar(
+        imagePaths[0],
+        imagePaths[1],
+        imagePaths[2]
+      );
+
+      if (!generatedImage) {
+        return {
+          status: 501,
+          message: "error generating image",
+        };
+      }
+      const imageData = await uploadToStorage(generatedImage);
       const kiwiAvatarCharacteristics: Record<string, any> = {};
       characteristicsToAdd.forEach((characteristic: IAsset) => {
         kiwiAvatarCharacteristics[characteristic.type.toLowerCase()] =
@@ -97,7 +116,10 @@ class kiwiAvatarController {
       });
       await KiwiAvatarModel.updateOne(
         { _id: params.id },
-        { characteristics: kiwiAvatarCharacteristics }
+        {
+          characteristics: kiwiAvatarCharacteristics,
+          image_data: imageData.url,
+        }
       );
       const data = await KiwiAvatarModel.find({ _id: params.id });
       return { status: 200, message: "ok", data };

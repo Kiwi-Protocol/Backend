@@ -30,5 +30,5 @@ export const authMiddleware = async (
     });
   }
 
-  next();
+  return next();
 };

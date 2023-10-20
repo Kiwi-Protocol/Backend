@@ -26,6 +26,7 @@ class HealthController {
           assetsToBeAdded.push({
             ...assetItem,
             type: assetType.toUpperCase(),
+            stage: "EPIC",
           });
         });
       });

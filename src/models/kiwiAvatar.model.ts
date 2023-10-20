@@ -5,6 +5,7 @@ export interface IAsset extends Document {
   name: string;
   image_url: string;
   type: string;
+  stage: string;
 }
 
 const IAssetSchema: Schema = new mongoose.Schema<IAsset>({
@@ -13,6 +14,10 @@ const IAssetSchema: Schema = new mongoose.Schema<IAsset>({
   type: {
     type: String,
     enum: ["HAIR", "EYES", "MOUTH"],
+  },
+  stage: {
+    type: String,
+    enum: ["COMMON", "RARE", "EPIC"],
   },
 });
 

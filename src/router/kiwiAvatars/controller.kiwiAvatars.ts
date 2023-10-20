@@ -185,10 +185,25 @@ class kiwiAvatarController {
       } else {
         typesNeededArray = query.typesNeeded.split(",");
       }
+
+      let stage: string = "COMMON";
+      if (query.avatar_id != 0) {
+        const avatar = await KiwiAvatarModel.findById(query.avatar_id);
+        if (!avatar) {
+          stage = "COMMON";
+        } else if (avatar.experience < 20) {
+          stage = "COMMON";
+        } else if (avatar.experience < 40) {
+          stage = "RARE";
+        } else {
+          stage = "EPIC";
+        }
+      }
+
       //data grouped by and sorted by type in the array
       const data = await AssetModel.aggregate([
         {
-          $match: { type: { $in: typesNeededArray } },
+          $match: { type: { $in: typesNeededArray }, stage: stage },
         },
         {
           $group: {

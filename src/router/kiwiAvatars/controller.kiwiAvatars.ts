@@ -7,6 +7,7 @@ import {
 } from "../../models/kiwiAvatar.model";
 import { createAvatar } from "./helper.kiwiAvatars";
 import { uploadToStorage } from "../../utils/upload";
+import { mint, getTokenId } from "../../utils/mint";
 
 class kiwiAvatarController {
   //for get query will be of the form {id: "some id", type: "some type",etc}
@@ -31,6 +32,28 @@ class kiwiAvatarController {
       const characteristicsToAdd: Array<IAsset> = await AssetModel.find({
         _id: { $in: characteristics },
       });
+      const imagePaths: Array<string> = characteristicsToAdd.map(
+        (characteristic: IAsset) => {
+          return characteristic.image_url;
+        }
+      );
+
+      const generatedImage = await createAvatar(
+        imagePaths[0],
+        imagePaths[1],
+        imagePaths[2]
+      );
+
+      if (!generatedImage) {
+        return {
+          status: 501,
+          message: "error generating image",
+        };
+      }
+      const imageData = await uploadToStorage(generatedImage);
+      await mint(body.wallet_address, imageData.url);
+      const tokenId = await getTokenId();
+
       const kiwiAvatarCharacteristics: Record<string, any> = {};
       characteristicsToAdd.forEach((characteristic: IAsset) => {
         kiwiAvatarCharacteristics[characteristic.type.toLowerCase()] =
@@ -41,8 +64,16 @@ class kiwiAvatarController {
         characteristics: kiwiAvatarCharacteristics,
         name: name,
         experience: 0,
+        tokenId: tokenId,
       });
-      return { status: 200, message: "ok", data };
+      return {
+        status: 200,
+        message: "ok",
+        data: {
+          imageData,
+          data,
+        },
+      };
     } catch (err: any) {
       return { status: 500, message: "error", error: err };
     }

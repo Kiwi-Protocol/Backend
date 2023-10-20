@@ -27,6 +27,7 @@ interface IKiwiAvatar extends Document {
   };
   experience: number;
   image: string | null | undefined;
+  tokenId: number;
 }
 
 const KiwiAvatarSchema: Schema = new mongoose.Schema<IKiwiAvatar>({
@@ -38,6 +39,7 @@ const KiwiAvatarSchema: Schema = new mongoose.Schema<IKiwiAvatar>({
   },
   experience: Number,
   image: String,
+  tokenId: Number,
 });
 
 export const KiwiAvatarModel: Model<IKiwiAvatar> =

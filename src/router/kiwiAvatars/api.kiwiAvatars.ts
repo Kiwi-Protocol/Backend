@@ -44,6 +44,7 @@ router.post("/generate", async (req: Request, res: Response) => {
   const result: ApiResponse = await kiwiAvatarController.generateKiwiAvatar(
     req.body
   );
+
   const imagePaths = result.data;
   const generatedImage = await createAvatar(
     imagePaths[0],
@@ -53,12 +54,17 @@ router.post("/generate", async (req: Request, res: Response) => {
 
   if (generatedImage) {
     const base64Image = await generatedImage.getBase64Async(Jimp.MIME_PNG);
+
     res.writeHead(200, {
       "Content-Type": "image/png",
       "Content-Length": base64Image.length,
     });
-    res.end(Buffer.from(base64Image, "base64"));
-  }
+    res.end(base64Image);
+    
+    // res.end(Buffer.from(base64Image, "base64"));
+    // generatedImage.write("./helu.png");
+
+  } else res.json({ error: "An error occcurred while generating image" });
 });
 
 export default router;

@@ -1,5 +1,9 @@
 import type { ApiResponse } from "../../index";
-import { KiwiAvatarModel } from "../../models/kiwiAvatar.model";
+import {
+  KiwiAvatarModel,
+  AssetModel,
+  IAsset,
+} from "../../models/kiwiAvatar.model";
 
 class kiwiAvatarController {
   //for get query will be of the form {id: "some id", type: "some type",etc}
@@ -17,7 +21,19 @@ class kiwiAvatarController {
   //characteristics might only come as name and type and will have to get from db. (TODO need to discuss)
   async createKiwiAvatar(body: any): Promise<ApiResponse> {
     try {
-      const data = await KiwiAvatarModel.create(body);
+      const name: string = body.name;
+      const characteristics = body.characteristics.map(
+        (characteristic: any) => characteristic.id
+      );
+      const characteristicsToAdd: Array<IAsset> = await AssetModel.find({
+        id: characteristics,
+      });
+
+      const data = await KiwiAvatarModel.create({
+        characteristics: characteristicsToAdd,
+        name: name,
+        experience: 0,
+      });
       return { status: 200, message: "ok", data };
     } catch (err: any) {
       return { status: 500, message: "error", error: err };

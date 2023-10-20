@@ -35,12 +35,14 @@ interface IKiwiAvatar extends Document {
   name: string;
   characteristics: IKiwiAvatarCharacteristics;
   experience: number;
+  image: string | null | undefined;
 }
 
 const KiwiAvatarSchema: Schema = new mongoose.Schema<IKiwiAvatar>({
   name: String,
   characteristics: KiwiAvatarCharacteristicsSchema,
   experience: Number,
+  image: String,
 });
 
 export const KiwiAvatarModel: Model<IKiwiAvatar> =

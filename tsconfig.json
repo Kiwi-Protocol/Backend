@@ -26,7 +26,8 @@
     "release/build",
     "release/app/dist",
     ".erb/dll",
-    "src/tests"
+    "src/tests",
+    "node_modules"
   ],
   "include": ["src/**/*.ts", "server.ts"],
   "ts-node": {

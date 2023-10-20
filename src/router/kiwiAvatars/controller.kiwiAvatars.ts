@@ -50,8 +50,10 @@ class kiwiAvatarController {
           message: "error generating image",
         };
       }
-      const imageData = await uploadToStorage(generatedImage);
+      const imageData = await uploadToStorage(generatedImage, body.ipnsFlag);
       await mint(body.wallet_address, imageData.url);
+      //sllep for 2 secs
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       const tokenId = await getTokenId();
 
       const kiwiAvatarCharacteristics: Record<string, any> = {};
@@ -64,7 +66,7 @@ class kiwiAvatarController {
         characteristics: kiwiAvatarCharacteristics,
         name: name,
         experience: 0,
-        tokenId: tokenId,
+        tokenId: tokenId! + 1,
         image: imageData.url,
       });
       return {
@@ -108,7 +110,7 @@ class kiwiAvatarController {
           message: "error generating image",
         };
       }
-      const imageData = await uploadToStorage(generatedImage);
+      const imageData = await uploadToStorage(generatedImage, body.ipnsFlag);
       const kiwiAvatarCharacteristics: Record<string, any> = {};
       characteristicsToAdd.forEach((characteristic: IAsset) => {
         kiwiAvatarCharacteristics[characteristic.type.toLowerCase()] =
@@ -119,6 +121,7 @@ class kiwiAvatarController {
         {
           characteristics: kiwiAvatarCharacteristics,
           image_data: imageData.url,
+          cid: imageData.cid,
         }
       );
       const data = await KiwiAvatarModel.find({ _id: params.id });
@@ -159,7 +162,7 @@ class kiwiAvatarController {
       );
 
       if (generatedImage) {
-        const data = await uploadToStorage(generatedImage);
+        const data = await uploadToStorage(generatedImage, false);
         return { status: 200, message: "ok", data };
       }
 
@@ -182,6 +185,7 @@ class kiwiAvatarController {
       } else {
         typesNeededArray = query.typesNeeded.split(",");
       }
+      //data grouped by and sorted by type in the array
       const data = await AssetModel.aggregate([
         {
           $match: { type: { $in: typesNeededArray } },
@@ -191,6 +195,14 @@ class kiwiAvatarController {
             _id: "$type",
             assets: { $push: "$$ROOT" },
           },
+        },
+        {
+          $addFields: {
+            order: { $indexOfArray: [typesNeededArray, "$_id"] },
+          },
+        },
+        {
+          $sort: { order: 1 },
         },
       ]);
       return { status: 200, message: "ok", data };

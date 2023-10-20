@@ -19,7 +19,8 @@
     "resolveJsonModule": true,
     "allowJs": true,
     "outDir": "release/",
-    "rootDirs": ["src", "."]
+    "rootDirs": ["src", "."],
+    "skipLibCheck": true
   },
   "exclude": [
     "test",

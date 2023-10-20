@@ -13,3 +13,17 @@ KiwiProtocol Backend
    One way that I can think of is that when the user is logged into a game and gets an achievment the game provider will send us a signature that we can verify as true so we know that the achivement was achieved by the user when he was logged in. This will need to be unique to each achievment, so that signatures can't be reused. Each achievment that is to be used in collaboration with our platform will have a unique id and the users address combined with it along with a unique key might form a one time use unique signature. I dont know how we would do this though.
 
    And even if the above problem is solved the problem to vet the achievments still remains.
+
+2. **Lack of documentation**
+   The lack of a proper documentation caused a bunch of integration problems especially for Push Chat and Sui
+
+
+# Tracks
+
+1. **Spheron**
+   Used spheron for its cloud computing functionalities. Used its Storage V2 SDK and spheronClient to store data on IPFS and IPNS.
+   Used spheron for hosting the Express backend app.
+
+2. **Okto**
+3. **Push Protocol**
+4. **Superteam**

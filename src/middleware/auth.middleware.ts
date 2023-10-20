@@ -13,7 +13,7 @@ export const authMiddleware = async (
     return res.json({
       message: "",
       status: 401,
-      error: new Error("Data provided is invalid or missing"),
+      error: new Error("Invalid or missing data"),
     });
   }
 
@@ -22,11 +22,11 @@ export const authMiddleware = async (
     signature,
   });
 
-  if (recoveredAddress !== address) {
+  if (recoveredAddress.toLowerCase() !== address.toLowerCase()) {
     return res.json({
       message: "",
       status: 401,
-      error: new Error("Incorrect Address, attempt to break through"),
+      error: new Error("Unauthorized"),
     });
   }
 

@@ -3,6 +3,7 @@ import type { ApiResponse } from "../../index";
 import kiwiAvatarController from "./controller.kiwiAvatars";
 import { createAvatar } from "./helper.kiwiAvatars";
 import Jimp from "jimp";
+import { uploadToStorage } from "../../utils/upload";
 
 const router: Router = Router();
 
@@ -54,6 +55,9 @@ router.post("/generate", async (req: Request, res: Response) => {
 
   if (generatedImage) {
     const base64Image = await generatedImage.getBase64Async(Jimp.MIME_PNG);
+
+    // Upload
+    await uploadToStorage(generatedImage)
 
     res.writeHead(200, {
       "Content-Type": "image/png",

@@ -5,6 +5,8 @@ import {
   AssetModel,
   IAsset,
 } from "../../models/kiwiAvatar.model";
+import { createAvatar } from "./helper.kiwiAvatars";
+import { uploadToStorage } from "../../utils/upload";
 
 class kiwiAvatarController {
   //for get query will be of the form {id: "some id", type: "some type",etc}
@@ -96,6 +98,16 @@ class kiwiAvatarController {
           return characteristic.image_url;
         }
       );
+      const generatedImage = await createAvatar(
+        imagePaths[0],
+        imagePaths[1],
+        imagePaths[2]
+      );
+
+      if (generatedImage) {
+        const data = await uploadToStorage(generatedImage);
+        return { status: 200, message: "ok", data };
+      }
 
       return {
         status: 200,

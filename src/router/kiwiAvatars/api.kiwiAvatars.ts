@@ -45,4 +45,28 @@ router.post("/generate", async (req: Request, res: Response) => {
   return res.status(result.status).json(result);
 });
 
+router.get("/assets", async (req: Request, res: Response) => {
+  console.log(`${req.originalUrl}-[${req.method}]`);
+  const result: ApiResponse = await kiwiAvatarController.getAssetsByType(
+    req.query
+  );
+  return res.status(result.status).json(result);
+});
+
+router.get("/assets/:id", async (req: Request, res: Response) => {
+  console.log(`${req.originalUrl}-[${req.method}]`);
+  const result: ApiResponse = await kiwiAvatarController.getAssetById(
+    req.params
+  );
+  return res.status(result.status).json(result);
+});
+
+router.get("/:id", async (req: Request, res: Response) => {
+  console.log(`${req.originalUrl}-[${req.method}]`);
+  const result: ApiResponse = await kiwiAvatarController.getKiwiAvatarById(
+    req.params
+  );
+  return res.status(result.status).json(result);
+});
+
 export default router;

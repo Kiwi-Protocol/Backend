@@ -28,4 +28,7 @@ app.use(`${apiPrefix}/users`, userRouter);
 import achievmentRouter from "./router/achievments/api.achievments";
 app.use(`${apiPrefix}/achievments`, achievmentRouter);
 
+import gamingRouter from "./router/gaming/api.gaming";
+app.use(`${apiPrefix}/gaming`, gamingRouter);
+
 export default app;

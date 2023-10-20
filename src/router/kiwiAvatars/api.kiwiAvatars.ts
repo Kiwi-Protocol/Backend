@@ -69,4 +69,10 @@ router.get("/:id", async (req: Request, res: Response) => {
   return res.status(result.status).json(result);
 });
 
+router.get("/tokenUri/:tokenId", async (req: Request, res: Response) => {
+  console.log(`${req.originalUrl}-[${req.method}]`);
+  const result = await kiwiAvatarController.getKiwiAvatarByTokenId(req.params);
+  return res.status(result.status).json(result);
+});
+
 export default router;

@@ -218,6 +218,15 @@ class kiwiAvatarController {
       return { status: 500, message: "error", error: err };
     }
   }
+
+  async getKiwiAvatarByTokenId(params: any): Promise<ApiResponse> {
+    try {
+      const data = await KiwiAvatarModel.find({ tokenId: params.tokenId });
+      return { status: 200, message: "ok", data };
+    } catch (err: any) {
+      return { status: 500, message: "error", error: err };
+    }
+  }
 }
 
 export default new kiwiAvatarController();

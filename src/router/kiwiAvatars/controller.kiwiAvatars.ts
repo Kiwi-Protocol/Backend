@@ -65,6 +65,7 @@ class kiwiAvatarController {
         name: name,
         experience: 0,
         tokenId: tokenId,
+        image: imageData.url,
       });
       return {
         status: 200,
@@ -145,6 +146,52 @@ class kiwiAvatarController {
         message: "error creating avatar",
         data: imagePaths,
       };
+    } catch (err: any) {
+      return { status: 500, message: "error", error: err };
+    }
+  }
+
+  //get all assets group-by type
+  async getAssetsByType(query: any): Promise<ApiResponse> {
+    try {
+      let typesNeededArray: Array<string> = [];
+      if (!query.typesNeeded) {
+        typesNeededArray = ["HAIR", "EYES", "MOUTH"];
+      } else {
+        typesNeededArray = query.typesNeeded.split(",");
+      }
+      const data = await AssetModel.aggregate([
+        {
+          $match: { type: { $in: typesNeededArray } },
+        },
+        {
+          $group: {
+            _id: "$type",
+            assets: { $push: "$$ROOT" },
+          },
+        },
+      ]);
+      return { status: 200, message: "ok", data };
+    } catch (err: any) {
+      return { status: 500, message: "error", error: err };
+    }
+  }
+
+  //get asset by id
+  async getAssetById(params: any): Promise<ApiResponse> {
+    try {
+      const data = await AssetModel.find({ _id: params.id });
+      return { status: 200, message: "ok", data };
+    } catch (err: any) {
+      return { status: 500, message: "error", error: err };
+    }
+  }
+
+  //get avatar by id
+  async getKiwiAvatarById(params: any): Promise<ApiResponse> {
+    try {
+      const data = await KiwiAvatarModel.find({ _id: params.id });
+      return { status: 200, message: "ok", data };
     } catch (err: any) {
       return { status: 500, message: "error", error: err };
     }

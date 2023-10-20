@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import type { ApiResponse } from "../../index";
 import {
   KiwiAvatarModel,
@@ -23,14 +24,19 @@ class kiwiAvatarController {
     try {
       const name: string = body.name;
       const characteristics = body.characteristics.map(
-        (characteristic: any) => characteristic.id
+        (characteristic: any) => new mongoose.Types.ObjectId(characteristic.id)
       );
       const characteristicsToAdd: Array<IAsset> = await AssetModel.find({
-        id: characteristics,
+        _id: { $in: characteristics },
+      });
+      const kiwiAvatarCharacteristics: Record<string, any> = {};
+      characteristicsToAdd.forEach((characteristic: IAsset) => {
+        kiwiAvatarCharacteristics[characteristic.type.toLowerCase()] =
+          characteristic;
       });
 
       const data = await KiwiAvatarModel.create({
-        characteristics: characteristicsToAdd,
+        characteristics: kiwiAvatarCharacteristics,
         name: name,
         experience: 0,
       });
@@ -44,7 +50,22 @@ class kiwiAvatarController {
   //will get characteristics array and update the avatars
   async updateKiwiAvatar(params: any, body: any): Promise<ApiResponse> {
     try {
-      const data = await KiwiAvatarModel.updateOne({ id: params.id }, body);
+      const characteristics = body.characteristics.map(
+        (characteristic: any) => new mongoose.Types.ObjectId(characteristic.id)
+      );
+      const characteristicsToAdd: Array<IAsset> = await AssetModel.find({
+        _id: { $in: characteristics },
+      });
+      const kiwiAvatarCharacteristics: Record<string, any> = {};
+      characteristicsToAdd.forEach((characteristic: IAsset) => {
+        kiwiAvatarCharacteristics[characteristic.type.toLowerCase()] =
+          characteristic;
+      });
+      await KiwiAvatarModel.updateOne(
+        { _id: params.id },
+        { characteristics: kiwiAvatarCharacteristics }
+      );
+      const data = await KiwiAvatarModel.find({ _id: params.id });
       return { status: 200, message: "ok", data };
     } catch (err: any) {
       return { status: 500, message: "error", error: err };
@@ -54,7 +75,7 @@ class kiwiAvatarController {
   //used to delete the avatar when the user burns his minted avatar
   async deleteKiwiAvatar(params: any): Promise<ApiResponse> {
     try {
-      const data = await KiwiAvatarModel.deleteOne({ id: params.id });
+      const data = await KiwiAvatarModel.deleteOne({ _id: params.id });
       return { status: 200, message: "ok", data };
     } catch (err: any) {
       return { status: 500, message: "error", error: err };

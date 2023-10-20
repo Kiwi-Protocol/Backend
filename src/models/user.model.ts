@@ -7,7 +7,7 @@ export interface IUser extends Document {
   api_key: string;
 }
 
-const UserSchema: Schema = new mongoose.Schema<IUser>({
+export const UserSchema: Schema = new mongoose.Schema<IUser>({
   name: String,
   email: String,
   wallet_address: String,

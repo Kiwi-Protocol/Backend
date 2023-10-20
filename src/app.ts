@@ -25,4 +25,7 @@ app.use(`${apiPrefix}/kiwiAvatars`, kiwiAvatarRouter);
 import userRouter from "./router/users/api.users";
 app.use(`${apiPrefix}/users`, userRouter);
 
+import achievmentRouter from "./router/achievments/api.achievments";
+app.use(`${apiPrefix}/achievments`, achievmentRouter);
+
 export default app;

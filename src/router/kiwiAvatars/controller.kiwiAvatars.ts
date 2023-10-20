@@ -81,6 +81,31 @@ class kiwiAvatarController {
       return { status: 500, message: "error", error: err };
     }
   }
+
+  //used to generate image on the basis of the stuff sent by the user
+  async generateKiwiAvatar(body: any): Promise<ApiResponse> {
+    try {
+      const characteristics = body.characteristics.map(
+        (characteristic: any) => new mongoose.Types.ObjectId(characteristic.id)
+      );
+      const characteristicsToAdd: Array<IAsset> = await AssetModel.find({
+        _id: { $in: characteristics },
+      });
+      const imagePaths: Array<string> = characteristicsToAdd.map(
+        (characteristic: IAsset) => {
+          return characteristic.image_url;
+        }
+      );
+
+      return {
+        status: 200,
+        message: "error creating avatar",
+        data: imagePaths,
+      };
+    } catch (err: any) {
+      return { status: 500, message: "error", error: err };
+    }
+  }
 }
 
 export default new kiwiAvatarController();

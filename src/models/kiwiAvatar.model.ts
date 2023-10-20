@@ -1,15 +1,13 @@
 import mongoose, { Document, Model, Schema } from "mongoose";
 
-interface IAsset extends Document {
+export interface IAsset extends Document {
   name: string;
-  cid: string;
   image_url: string;
   type: string;
 }
 
 const IAssetSchema: Schema = new mongoose.Schema<IAsset>({
   name: String,
-  cid: String,
   image_url: String,
   type: {
     type: String,

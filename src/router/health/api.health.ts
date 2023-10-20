@@ -16,4 +16,10 @@ router.post("/", async (req: Request, res: Response) => {
   res.status(result.status).json(result);
 });
 
+router.post("/upload-assets", async (req: Request, res: Response) => {
+  console.log(`${req.originalUrl}-[${req.method}]`);
+  const result: ApiResponse = await HealthController.uploadAssets();
+  res.status(result.status).json(result);
+});
+
 export default router;

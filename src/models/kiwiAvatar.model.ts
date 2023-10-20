@@ -1,4 +1,5 @@
 import mongoose, { Document, Model, Schema } from "mongoose";
+import { IAchievment, AchievmentSchema } from "./achievment.model";
 
 export interface IAsset extends Document {
   name: string;
@@ -30,6 +31,7 @@ interface IKiwiAvatar extends Document {
   tokenId: number;
   cid: string;
   ipns_link: string | null | undefined;
+  achievments: Array<IAchievment | null | undefined>;
 }
 
 const KiwiAvatarSchema: Schema = new mongoose.Schema<IKiwiAvatar>({
@@ -44,6 +46,7 @@ const KiwiAvatarSchema: Schema = new mongoose.Schema<IKiwiAvatar>({
   tokenId: Number,
   cid: String,
   ipns_link: String,
+  achievments: [AchievmentSchema],
 });
 
 export const KiwiAvatarModel: Model<IKiwiAvatar> =

@@ -9,7 +9,7 @@ export interface IAchievment extends Document {
   creator: IUser;
 }
 
-const AchievmentSchema: Schema = new mongoose.Schema<IAchievment>({
+export const AchievmentSchema: Schema = new mongoose.Schema<IAchievment>({
   name: String,
   description: String,
   image_url: String,

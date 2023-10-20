@@ -16,7 +16,10 @@ class GamingController {
       }
       const data = await KiwiAvatarModel.updateOne(
         { _id: avatar_id },
-        { experience: avatar.experience + achievment.experience }
+        {
+          experience: avatar.experience + achievment.experience,
+          achievments: [...avatar.achievments, achievment],
+        }
       );
       return { status: 200, message: "ok", data };
     } catch (error: any) {

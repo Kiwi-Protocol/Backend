@@ -37,4 +37,8 @@ KiwiProtocol Backend
 1. Extend the current functionality to create a gaming centric identity protocol.
 2. Make the avatars cross chain to allow improved collaboration and better user experience.
 3. Explore additional monetization opportunities.
+
+# Deployed Links:
+Frontend: https://www.kiwiprotocol.xyz/
+Backend: https://kiwiprotocol.onrender.com/
    

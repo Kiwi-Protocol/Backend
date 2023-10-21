@@ -1,7 +1,6 @@
 import type { ApiResponse } from "../../index";
 import { AssetModel, KiwiAvatarModel } from "../../models/kiwiAvatar.model";
 import { AchievmentModel } from "../../models/achievment.model";
-import { forEach } from "lodash";
 import kiwiAvatarController from "../kiwiAvatars/controller.kiwiAvatars";
 
 class GamingController {
@@ -26,14 +25,17 @@ class GamingController {
       } else {
         stage = "EPIC";
       }
-      forEach(avatar.characteristics, async (characteristic: any) => {
-        const newAsset = await AssetModel.findOne({
-          type: characteristic.type,
-          stage: stage,
-          name: characteristic.name,
-        });
-        newCharacteristics.push({ id: newAsset?._id });
-      });
+
+      await Promise.all(
+        Object.values(avatar.characteristics).map(async (value) => {
+          const newAsset = await AssetModel.findOne({
+            type: value.type,
+            stage: stage,
+            name: value.name,
+          });
+          newCharacteristics.push({ id: newAsset?._id });
+        })
+      );
 
       const data = await KiwiAvatarModel.updateOne(
         { _id: avatar_id },

@@ -39,6 +39,7 @@ KiwiProtocol Backend
 3. Explore additional monetization opportunities.
 
 # Deployed Links:
-Frontend: https://www.kiwiprotocol.xyz/
+Frontend: https://www.kiwiprotocol.xyz/  
+
 Backend: https://kiwiprotocol.onrender.com/
    

@@ -23,7 +23,18 @@ KiwiProtocol Backend
 1. **Spheron**
    Used spheron for its cloud computing functionalities. Used its Storage V2 SDK and spheronClient to store data on IPFS and IPNS.
    Used spheron for hosting the Express backend app.
+2. **Superteam - Composable Loyalty NFT**
+   Kiwi protocol is a decentralized identity protocol that serves as a proof of repuation for gaming communities. We provide users with an onchain avatar that grows and evolves with them. This is a transferable avatar that can gain experience from the games it plays and changes with them.
+   We expose our services to the third party game developers by allowing them to use our identity services to model hyper customized avatars for their users to improve engagement. They can use our platform to create an achievement set and then use our API's to serve them.
+   On the basis of these achievments the game provider can offer experience/perks that allow the players avatar to evolve which further improves engagement.
 
-2. **Okto**
-3. **Push Protocol**
-4. **Superteam**
+# Important Features
+1. Gasless transactions to enable smooth onboarding for users.
+2. Dynamic avatars whoose attributes can be changed and evolved.
+3. Decentralized compute.
+
+# Further Scope
+1. Extend the current functionality to create a gaming centric identity protocol.
+2. Make the avatars cross chain to allow improved collaboration and better user experience.
+3. Explore additional monetization opportunities.
+   
